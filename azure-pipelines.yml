@@ -11,7 +11,7 @@ pool:
 
 steps:
 - script: |
-    ssh-keyscan <hostname> >> ~/.ssh/known_hosts
+    ssh-keyscan magerit.cesvima.upm.es >> ~/.ssh/known_hosts
     chmod 600 $SSH_PRIVATE_KEY
     ssh -i $SSH_PRIVATE_KEY t584608@magerit.cesvima.upm.es "cd /home/t584/t584608 && bash uvigo_quant.sh"
   env:
