@@ -20,8 +20,8 @@ jobs:
       - script: |
           sudo apt-get update
           sudo apt-get install openssh-client -y
-          ssh-keyscan magerit.cesvima.upm.es >> /home/t584/t584608/.ssh/known_hosts
+          ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY t584608@magerit.cesvima.upm.es "echo Connection established && cd /home/t584/t584608 && bash uvigo_quant.sh"
           chmod 600 $SSH_PRIVATE_KEY
-          ssh -i $SSH_PRIVATE_KEY t584608@magerit.cesvima.upm.es "cd /home/t584/t584608 && bash uvigo_quant.sh"
+          ssh -i $SSH_PRIVATE_KEY t584608@magerit.cesvima.upm.es "echo Connection established && cd /home/t584/t584608 && bash uvigo_quant.sh"
         env:
           SSH_PRIVATE_KEY: $(SSH_PRIVATE_KEY)
