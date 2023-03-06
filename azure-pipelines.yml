@@ -13,15 +13,20 @@ jobs:
   - job: deploy_to_cevisma
     displayName: 'Deploy to Cevisma'
     steps:
+      - task: DownloadSecureFile@1
+        name: login-cesvima
+        displayName: Download Login File
+        inputs:
+          secureFile: SSH_PRIVATE_KEY
       - task: UsePythonVersion@0
         inputs:
           versionSpec: '3.9'
           architecture: 'x64'
       - script: |
           sudo apt-get update
-          sudo apt-get install openssh-client -y
-          ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY t584608@magerit.cesvima.upm.es "echo Connection established && cd /home/t584/t584608 && bash uvigo_quant.sh"
-          chmod 600 $SSH_PRIVATE_KEY
-          ssh -i $SSH_PRIVATE_KEY t584608@magerit.cesvima.upm.es "echo Connection established && cd /home/t584/t584608 && bash uvigo_quant.sh"
+          sudo apt-get install -y software-properties-common
+          sudo apt-add-repository -y ppa:ansible/ansible
+          sudo apt-get update
+          sudo apt-get install -y ansible
         env:
           SSH_PRIVATE_KEY: $(SSH_PRIVATE_KEY)
